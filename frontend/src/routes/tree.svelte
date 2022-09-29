@@ -150,6 +150,9 @@
 
   let results = false;
   let minTotalWeight = 0;
+  let maxTotalWeight = 999999;
+  let minSeed = 0;
+  let maxSeed = 999999;
   let searching = false;
   let currentSeed = 0;
   let searchResults: SearchResults;
@@ -170,7 +173,10 @@
       conqueror: selectedConqueror.value,
       nodes: affectedNodes.filter((n) => !disabled.has(n.skill)).map((n) => data.TreeToPassive[n.skill].Index),
       stats: Object.keys(selectedStats).map((stat) => selectedStats[stat]),
-      minTotalWeight
+      minTotalWeight,
+	  maxTotalWeight,
+	  minSeed,
+	  maxSeed
     };
 
     syncWrap
@@ -441,7 +447,7 @@
             </button>
 
             <h3 class="flex-grow">
-              {results ? 'Results' : 'Timeless Jewel'}
+              {results ? 'Results'+' ('+((searchResults.raw.length >28 ) ? searchResults.raw.length+' > 28' : searchResults.raw.length)+')' : 'Timeless Jewel'}
             </h3>
           </div>
           {#if searchResults}
@@ -583,7 +589,7 @@
                         </div>
                         <div class="mt-2 flex flex-row">
                           <div class="mr-4 flex flex-row items-center">
-                            <div class="mr-2">Min:</div>
+                            <div class="mr-2">Count:</div>
                             <input type="number" min="0" bind:value={selectedStats[s].min} />
                           </div>
                           <div class="flex flex-row items-center">
@@ -594,12 +600,26 @@
                       </div>
                     {/each}
                   </div>
-                  <div class="flex flex-col mt-2">
-                    <div class="flex flex-row items-center">
-                      <div class="mr-2 min-w-fit">Min Total Weight:</div>
-                      <input type="number" min="0" bind:value={minTotalWeight} />
-                    </div>
-                  </div>
+                        <div class="mt-2 flex flex-row">
+                          <div class="mr-4 flex flex-row items-center">
+                            <div class="mr-2">Min Weight:</div>
+                            <input type="number" min="0" bind:value={minTotalWeight} />
+                          </div>
+                          <div class="flex flex-row items-center">
+                            <div class="mr-2">Max Weight:</div>
+                            <input type="number" min="0" bind:value={maxTotalWeight} />
+                          </div>
+                        </div>
+                        <div class="mt-2 flex flex-row">
+                          <div class="mr-4 flex flex-row items-center">
+                            <div class="mr-2">Min Seed:</div>
+                            <input type="number" min="0" bind:value={minSeed} />
+                          </div>
+                          <div class="flex flex-row items-center">
+                            <div class="mr-2">Max Seed:</div>
+                            <input type="number" min="0" bind:value={maxSeed} />
+                          </div>
+                        </div>
                   <div class="flex flex-col mt-4">
                     <div class="flex flex-row">
                       <button

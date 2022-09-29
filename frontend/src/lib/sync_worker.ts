@@ -38,7 +38,7 @@ const obj = {
         Object.keys(searchResult[seed][skillID]).forEach((st) => {
           const n = parseInt(st);
           statCounts[n] = (statCounts[n] || 0) + 1;
-          weight += args.stats.find((s) => s.id == n)?.weight || 0;
+          weight += args.stats.find((s) => s.id == n)?.weight*searchResult[seed][skillID][n] || 0;
         });
 
         return {
@@ -62,10 +62,12 @@ const obj = {
     Object.keys(searchGrouped).forEach((len) => {
       const nLen = parseInt(len);
       searchGrouped[nLen] = searchGrouped[nLen].filter((g) => {
-        if (g.weight < args.minTotalWeight) {
+        if (g.weight < args.minTotalWeight || g.weight >= args.maxTotalWeight ) {
           return false;
         }
-
+		if (g.seed >= args.maxSeed || g.seed < args.minSeed  ) {
+          return false;
+        }
         for (const stat of args.stats) {
           if ((g.statCounts[stat.id] === undefined && stat.min > 0) || g.statCounts[stat.id] < stat.min) {
             return false;

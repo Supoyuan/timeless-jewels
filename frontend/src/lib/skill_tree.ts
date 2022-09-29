@@ -305,6 +305,9 @@ export interface ReverseSearchConfig {
   nodes: number[];
   stats: StatConfig[];
   minTotalWeight: number;
+  maxTotalWeight: number;
+  minSeed: number;
+  maxSeed: number;
 }
 
 export interface SearchWithSeed {
@@ -386,7 +389,7 @@ export const constructQuery = (jewel: number, conqueror: string, result: SearchW
   }
 
   let stats;
-  if (seeds.length * 4 < maxQueries) {
+  if (seeds.length * 28 < maxQueries) {
     stats = [
       {
         type: 'count',
